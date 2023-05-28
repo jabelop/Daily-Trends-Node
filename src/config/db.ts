@@ -2,6 +2,7 @@ import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
 import * as dotenv from 'dotenv';
 import { UserTypeOrm } from "../auth/infraestructure/UserTypeOrm";
+import { NewTypeOrm } from "../local_news/infraestructure/NewTypeOrm";
 
 dotenv.config();
 
@@ -20,6 +21,6 @@ export const dbConfig: TypeOrmModuleOptions = {
     username,
     password,
     database,
-    entities: [UserTypeOrm],
+    entities: [UserTypeOrm, NewTypeOrm],
     synchronize: true,
 };
