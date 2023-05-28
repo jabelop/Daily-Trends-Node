@@ -6,11 +6,12 @@ import { UserRepositoryMysql } from './auth/infraestructure/UserRepositoryMysql'
 import { AuthModule } from './auth/auth.module';
 import { JwtService } from '@nestjs/jwt';
 import { DataSource } from 'typeorm';
+import { LocalNewsModule } from './local_news/local.news.module';
 
 const userRepositoryProvider = {provide: UserRepository, useClass: UserRepositoryMysql};
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dbConfig), AuthModule],
+  imports: [TypeOrmModule.forRoot(dbConfig), AuthModule, LocalNewsModule],
   controllers: [],
   providers: [JwtService],
 })
