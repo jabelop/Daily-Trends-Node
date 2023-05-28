@@ -17,8 +17,7 @@ export class AuthController {
   async login(@Body() user: User, @Response() resp: Resp) {
     const result: any = await this.authService.login(user);
     if (!result) throw new HttpException('Incorrect user or password', HttpStatus.NOT_FOUND);
-    return resp.setHeader('Authorization', result.access_token).send();
-    //return result;
+    return resp.cookie('JWT', result.access_token).send();
   }
 
   @Post('auth/signup')
