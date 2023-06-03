@@ -40,7 +40,7 @@ export class NewsController {
     async createNew(@Body() localNew: New): Promise<New> {
         try {
             if (!(new NewValidator(localNew)).validate()) throw new HttpException('Bad request data', HttpStatus.NOT_FOUND);
-            if (this.newsService.createNew(localNew)) return;
+            if (await this.newsService.createNew(localNew)) return;
             throw new HttpException('Internal error', HttpStatus.INTERNAL_SERVER_ERROR);
         } catch(error) {
             throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
