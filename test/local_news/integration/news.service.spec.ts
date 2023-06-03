@@ -44,7 +44,7 @@ describe('NewsService', () => {
     ).toBe(true);
   });
 
-  it('should get a exisitng new', async () => {
+  it('should get an exisitng new', async () => {
     expect(await newRepository.getNew(2)).toEqual(
       { 
         id: 2, 
@@ -54,6 +54,10 @@ describe('NewsService', () => {
       }
     );
 
+  });
+
+  it('should delete an exisitng new', async () => {
+    expect(await newRepository.deleteNew(2)).toBe(true);
   });
 
   afterAll(async () => await newRepository.deleteNew(2));

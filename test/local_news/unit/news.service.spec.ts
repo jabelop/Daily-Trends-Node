@@ -45,5 +45,9 @@ describe('NewsService', () => {
     expect(await service.getNewById(-1)).toBe(null);
   });
 
+  it('should return true deleting an exisiting new', async () => {
+    expect(await service.deleteNew(1)).toBe(true);
+  });
+
 
 });
