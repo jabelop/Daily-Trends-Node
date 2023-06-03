@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 import { dbConfig } from './config/db';
 import { UserRepository } from './auth/domain/UserRepository';
 import { UserRepositoryMysql } from './auth/infraestructure/UserRepositoryMysql';
@@ -12,7 +13,7 @@ import { ScrapedNewsModule } from './scraped_news/scraped.news.module';
 const userRepositoryProvider = {provide: UserRepository, useClass: UserRepositoryMysql};
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dbConfig), AuthModule, LocalNewsModule, ScrapedNewsModule],
+  imports: [TypeOrmModule.forRoot(dbConfig), AuthModule, LocalNewsModule, ScrapedNewsModule, MongooseModule.forRoot('mongodb://localhost/daily_trends')],
   controllers: [],
   providers: [JwtService],
 })
