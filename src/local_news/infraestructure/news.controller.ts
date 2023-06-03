@@ -47,4 +47,15 @@ export class NewsController {
         }   
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Delete()
+    async deleteNew(@Body() id: number): Promise<New> {
+        try {
+            if (await this.newsService.deleteNew(id)) return;
+            throw new HttpException('Internal error', HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch(error) {
+            throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
+        }   
+    }
+
 }
