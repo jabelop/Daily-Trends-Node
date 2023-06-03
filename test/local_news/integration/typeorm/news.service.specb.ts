@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { JwtService } from '@nestjs/jwt';
-import { AuthService } from '../../../src/auth/application/auth.service';
-import { UserRepository } from '../../../src/auth/domain/UserRepository';
+import { AuthService } from '../../../../src/auth/application/auth.service';
+import { UserRepository } from '../../../../src/auth/domain/UserRepository';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dbConfig } from '../../../src/config/db';
-import { AuthModule } from '../../../src/auth/auth.module';
-import { NewRepository } from '../../../src/local_news/domain/NewRepository';
-import { NewRepositoryMysql } from '../../../src/local_news/infraestructure/NewRepositoryMysql';
-import { NewsService } from '../../../src/local_news/application/news.service';
-import { LocalNewsModule } from '../../../src/local_news/local.news.module';
+import { dbConfig } from '../../../../src/config/db';
+import { AuthModule } from '../../../../src/auth/auth.module';
+import { NewRepository } from '../../../../src/local_news/domain/NewRepository';
+import { NewRepositoryMysql } from '../../../../src/local_news/infraestructure/NewRepositoryMysql';
+import { NewsService } from '../../../../src/local_news/application/news.service';
+import { LocalNewsModule } from '../../../../src/local_news/local.news.module';
 
 const newsRepositoryProvider = { provide: NewRepository, useClass: NewRepositoryMysql };
 
