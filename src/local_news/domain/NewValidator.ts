@@ -20,8 +20,8 @@ export class NewValidator {
 
     validateImage(): boolean {
         if (
-            this.newData.title &&
-            (typeof this.newData.title !== 'string' || this.newData.title.length > 250)
+            this.newData.image &&
+            (typeof this.newData.image !== 'string' || this.newData.image.length > 250)
         )
             return false;
         return true;

@@ -8,6 +8,7 @@ import { NewRepositoryTest } from './NewRepositoryTest';
 import { NewsService } from '../../../src/local_news/application/news.service';
 import { UserRepository } from '../../../src/auth/domain/UserRepository';
 import { UserRepositoryTest } from '../../auth/unit/userRespositoryTest';
+import { BadRequestError } from '../../../src/shared/domain/BadRequestError';
 
 const newRepositoryProvider = {provide: NewRepository, useClass: NewRepositoryTest};
 const usersRepositoryProvider = {provide: UserRepository, useClass: UserRepositoryTest};
@@ -33,8 +34,8 @@ describe('NewsService', () => {
     expect(await service.createNew({title: "title 13", content: "content 3", image: "testimage"})).toBe(true);
   });
 
-  it('should return false saving a bad data new', async () => {
-    expect(await service.createNew({title: "title 13", content: null, image: "testimage"})).toBe(false);
+  it('should return BadRequestError saving a bad data new', async () => {
+    expect(await service.createNew({title: "title 13", content: null, image: "testimage"})).toBeInstanceOf(BadRequestError);
   });
 
   it('should return the new with id 1', async () => {

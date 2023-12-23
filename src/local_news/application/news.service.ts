@@ -1,8 +1,11 @@
 
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { NewRepository } from '../domain/NewRepository';
 import { New } from '../domain/New';
+import { NewValidator } from '../domain/NewValidator';
+import { BadRequestError } from '../../shared/domain/BadRequestError';
+import { HTTPError } from '../../shared/domain/HTTPError';
 
 @Injectable()
 export class NewsService {
@@ -11,7 +14,8 @@ export class NewsService {
     private readonly jwtService: JwtService
   ) { }
 
-  async createNew(localNew: New): Promise<boolean> {
+  async createNew(localNew: New): Promise<HTTPError | boolean> {
+    if (!(new NewValidator(localNew)).validate()) return new BadRequestError();
     return this.newRepository.saveNew(localNew);
   }
 

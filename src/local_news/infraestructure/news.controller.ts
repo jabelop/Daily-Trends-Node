@@ -3,6 +3,7 @@ import { NewsService } from '../application/news.service';
 import { JwtAuthGuard } from '../../auth/infraestructure/strategies/jwt-auth.guard';
 import { New } from '../domain/New';
 import { NewValidator } from '../domain/NewValidator';
+import { HTTPError } from '../../shared/domain/HTTPError';
 
 
 @Controller('news')
@@ -14,48 +15,36 @@ export class NewsController {
     @UseGuards(JwtAuthGuard)
     @Get()
     getAlNews(): Promise<New[]> {
-        try {
-            return this.newsService.getAllNews();
-        } catch (error) {
-            throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return this.newsService.getAllNews();
 
     }
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getNew(@Param('id') id: string): Promise<New | null> {
-        try {
-            const localNew: New = await this.newsService.getNewById(Number(id));
-            if (!localNew) throw new HttpException('No new with that id', HttpStatus.NOT_FOUND);
-            return localNew;
-        } catch (error) {
-            throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    async getNew(@Param('id') id: string): Promise<New> {
 
+        const localNew: New = await this.newsService.getNewById(Number(id));
+        if (!localNew) throw new HttpException('No new with that id', HttpStatus.NOT_FOUND);
+        return localNew;
+        
     }
 
     @UseGuards(JwtAuthGuard)
     @Post()
     async createNew(@Body() localNew: New): Promise<New> {
-        try {
-            if (!(new NewValidator(localNew)).validate()) throw new HttpException('Bad request data', HttpStatus.NOT_FOUND);
-            if (await this.newsService.createNew(localNew)) return;
-            throw new HttpException('Internal error', HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch(error) {
-            throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
-        }   
+
+        const result: HTTPError | boolean = await this.newsService.createNew(localNew);
+        if (result === true) return;
+        throw new HttpException((<HTTPError>result).getMessage(), (<HTTPError>result).getStatus());
+
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete()
     async deleteNew(@Body() localNew: New): Promise<New> {
-        try {
-            if (await this.newsService.deleteNew(Number(localNew.id))) return;
-            throw new HttpException('Internal error', HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch(error) {
-            throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
-        }   
+
+        if (await this.newsService.deleteNew(Number(localNew.id))) return;
     }
 
 }

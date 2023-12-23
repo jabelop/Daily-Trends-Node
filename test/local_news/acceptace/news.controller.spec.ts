@@ -32,22 +32,22 @@ describe('NewsController', () => {
       });
   });
 
-  it('should response 500 on GET an non exisiting new id', () => {
+  it('should response 400 on GET an non exisiting new id', () => {
     return request(app.getHttpServer())
       .get('/news/0')
       .set('Authorization', `Bearer ${jwt}`)
       .then((response) => {
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(404);
       });
   });
 
-  it('should response 500 on POST /news/ bad data', () => {
+  it('should response 400 on POST /news/ bad data', () => {
     return request(app.getHttpServer())
       .post('/news')
       .set('Authorization', `Bearer ${jwt}`)
       .send({title: "title 1", content: 3, image: "https://www.pinterest/a23db4455c456dee45c"})
       .then((response) => {
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(400);
       });
   });
 });
